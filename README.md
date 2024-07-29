@@ -8,6 +8,7 @@
 - Install Angular CLI (`npm install -g @angular/cli@latest`)
 - Run `npm install`
 - Used CDN package of Bootstrap, no need for installation
+- Add Angular Material (`ng add @angular/material@18.1.2`)
 
 ## Description
 
