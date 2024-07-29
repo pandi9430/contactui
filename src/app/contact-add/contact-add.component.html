@@ -1,0 +1,141 @@
+<div class="container">
+    <h6 class="text-center font-weight-bold mb-4">Contact Add Form</h6>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="firstName">Full Name</label>
+                    <input type="text" id="firstName" formControlName="firstName" class="form-control" />
+                    <div *ngIf="f['firstName'].invalid && (f['firstName'].dirty || f['firstName'].touched)">
+                        <div *ngIf="f['firstName'].errors?.['required']" class="text-danger">
+                            Full Name is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" formControlName="lastName" class="form-control" />
+                    <div *ngIf="f['lastName'].invalid && (f['lastName'].dirty || f['lastName'].touched)">
+                        <div *ngIf="f['lastName'].errors?.['required']" class="text-danger">
+                            Last Name is required.
+                        </div>
+                        <div *ngIf="f['lastName'].errors?.['minlength']" class="text-danger">
+                            Last Name must be at least 6 characters long.
+                        </div>
+                        <div *ngIf="f['lastName'].errors?.['maxlength']" class="text-danger">
+                            Last Name cannot be more than 20 characters long.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" formControlName="email" class="form-control" />
+                    <div *ngIf="f['email'].invalid && (f['email'].dirty || f['email'].touched)">
+                        <div *ngIf="f['email'].errors?.['required']" class="text-danger">
+                            Email is required.
+                        </div>
+                        <div *ngIf="f['email'].errors?.['email']" class="text-danger">
+                            Please enter a valid email address.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number</label>
+                    <input type="text" id="phoneNumber" formControlName="phoneNumber" class="form-control" />
+                    <div *ngIf="f['phoneNumber'].invalid && (f['phoneNumber'].dirty || f['phoneNumber'].touched)">
+                        <div *ngIf="f['phoneNumber'].errors?.['required']" class="text-danger">
+                            Phone Number is required.
+                        </div>
+                        <div *ngIf="f['phoneNumber'].errors?.['pattern']" class="text-danger">
+                            Enter a valid phone number.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" formControlName="address" class="form-control" />
+                    <div *ngIf="f['address'].invalid && (f['address'].dirty || f['address'].touched)">
+                        <div *ngIf="f['address'].errors?.['required']" class="text-danger">
+                            Address is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="country">Country</label>
+                    <select id="country" formControlName="country" class="form-select">
+                        <option *ngFor="let country of countries" [value]="country">{{ country }}</option>
+                    </select>
+                    <div *ngIf="f['country'].invalid && (f['country'].dirty || f['country'].touched)">
+                        <div *ngIf="f['country'].errors?.['required']" class="text-danger">
+                            Country is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="state">State</label>
+                    <select id="state" formControlName="state" class="form-select">
+                        <option *ngFor="let state of states" [value]="state">{{ state }}</option>
+                    </select>
+                    <div *ngIf="f['state'].invalid && (f['state'].dirty || f['state'].touched)">
+                        <div *ngIf="f['state'].errors?.['required']" class="text-danger">
+                            State is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <select id="city" formControlName="city" class="form-select">
+                        <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
+                    </select>
+                    <div *ngIf="f['city'].invalid && (f['city'].dirty || f['city'].touched)">
+                        <div *ngIf="f['city'].errors?.['required']" class="text-danger">
+                            City is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="postalCode">Postal Code</label>
+                    <input type="text" id="postalCode" formControlName="postalCode" class="form-control" />
+                    <div *ngIf="f['postalCode'].invalid && (f['postalCode'].dirty || f['postalCode'].touched)">
+                        <div *ngIf="f['postalCode'].errors?.['required']" class="text-danger">
+                            Postal Code is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-group">
+                    <button *ngIf="flag=='Add'" type="submit" class="btn btn-primary">Register</button>
+                    <button *ngIf="flag=='Edit'" type="button" (click)="onUpdate()"
+                        class="btn btn-primary">Update</button>
+                    <button type="button" (click)="onReset()" class="btn btn-warning ml-2">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
