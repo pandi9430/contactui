@@ -2,3 +2,7 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+@import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+// @import '../node_modules/font-awesome/dist/css/bootstrap.min.css';
+@import '../node_modules/ngx-toastr/toastr.css';

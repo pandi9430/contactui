@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -7,33 +7,42 @@ import { Observable } from 'rxjs';
 })
 export class ContactService {
   private getallapiUrl = 'http://localhost:5001/api/Contacts/GetAllContact';
-  private getbyidapiurl="http://localhost:5001/api/Contacts";
-  private postapiurl="http://localhost:5001/api/Contacts/InsertContact";
-  private putapiurl="http://localhost:5001/api/Contacts/PutContact";
-  private deleteapiurl="http://localhost:5001/api/Contacts/Delete";
-  private loginapiurl="http://localhost:5001/api/Auth/login";
+  private getbyidapiurl = "http://localhost:5001/api/Contacts";
+  private postapiurl = "http://localhost:5001/api/Contacts/InsertContact";
+  private putapiurl = "http://localhost:5001/api/Contacts/PutContact";
+  private deleteapiurl = "http://localhost:5001/api/Contacts/Delete";
+  private loginapiurl = "http://localhost:5001/api/Auth/login";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  getContacts(): Observable<any[]> {
-    return this.http.get<any[]>(this.getallapiUrl);
+  private getHeaders(): HttpHeaders {
+    const token = sessionStorage.getItem('token');
+    console.log('Token:', sessionStorage.getItem('token'));
+
+    console.log('Authorization Header:', token ? `Bearer ${token}` : 'No Token');
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {})
+    });
   }
 
-  getContactsById(id:number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.getbyidapiurl}/${id}`);
+  getContacts(): Observable<any[]> {
+    return this.http.get<any[]>(this.getallapiUrl, { headers: this.getHeaders() });
+  }
 
+  getContactsById(id: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.getbyidapiurl}/${id}`, { headers: this.getHeaders() });
   }
 
   addContact(contact: any): Observable<any> {
-    return this.http.post<any>(this.postapiurl, contact);
+    return this.http.post<any>(this.postapiurl, contact, { headers: this.getHeaders() });
   }
 
   updateContact(contact: any): Observable<any> {
-    return this.http.put<any>(this.putapiurl, contact);
+    return this.http.put<any>(this.putapiurl, contact, { headers: this.getHeaders() });
   }
 
   deleteContact(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.deleteapiurl}/${id}`);
+    return this.http.delete<any>(`${this.deleteapiurl}/${id}`, { headers: this.getHeaders() });
   }
-  
 }

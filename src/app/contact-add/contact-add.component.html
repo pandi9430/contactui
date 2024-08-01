@@ -124,6 +124,12 @@
                         <div *ngIf="f['postalCode'].errors?.['required']" class="text-danger">
                             Postal Code is required.
                         </div>
+                        <div *ngIf="f['postalCode'].errors?.['minlength']" class="text-danger">
+                            Postal Code must be at least 5 characters long.
+                        </div>
+                        <div *ngIf="f['postalCode'].errors?.['maxlength']" class="text-danger">
+                            Postal Code cannot be more than 10 characters long.
+                        </div>
                     </div>
                 </div>
             </div>

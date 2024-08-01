@@ -1,4 +1,42 @@
-.container {
-    max-width: 500px;
-    margin: 50px auto;
+// .container {
+//     max-width: 500px;
+//     margin: 50px auto;
+// }
+
+
+/* Media query for laptop screens */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .container {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+
+    .row {
+        /* Adjust alignment if needed */
+        align-items: center;
+    }
+
+    .display-4 {
+        font-size: 2.5rem; /* Adjust font size for laptop screens */
+    }
+
+    .fs-4 {
+        font-size: 1.25rem; /* Adjust font size for paragraph text */
+    }
+
+    .col-lg-6 {
+        /* Adjust column sizes for laptop screens */
+        padding: 1rem;
+    }
+
+    .form-floating {
+        /* Adjust spacing inside form elements */
+        margin-bottom: 1rem;
+    }
+
+    .btn {
+        /* Adjust button size and padding for laptop screens */
+        font-size: 1.25rem;
+        padding: 0.75rem 1.5rem;
+    }
 }

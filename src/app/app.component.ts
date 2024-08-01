@@ -24,4 +24,11 @@ export class AppComponent implements OnInit {
       this.isLoginPage = this.router.url === '/login'; // Adjust the URL based on your routing configuration
     });
   }
+
+  logout() {
+    // Clear the session storage
+    sessionStorage.removeItem('token');
+    // Optionally, redirect the user to the login page or another page
+    this.router.navigate(['/login']);
+  }
 }

@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContactService } from '../contact.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-contact-add',
@@ -41,7 +42,7 @@ export class ContactAddComponent {
   constructor(private formBuilder: FormBuilder,
     private _router: Router,
     private contactService: ContactService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,private toastr: ToastrService) {
 
     this.form = this.formBuilder.group({
       contactID: [0],
@@ -66,38 +67,22 @@ export class ContactAddComponent {
       city: ['', Validators.required],
       state: ['', Validators.required],
       country: ['', Validators.required],
-      postalCode: ['', Validators.required]
+      postalCode: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(10),
+        ],
+      ],
     });
 
     this.route.queryParams.subscribe(queryParams => {
       this.contactID = queryParams['contactID'];
       this.flag = queryParams['flag'];
-      const firstName = queryParams['firstName'];
-      const lastName = queryParams['lastName'];
-      const email = queryParams['email'];
-      const phoneNumber = queryParams['phoneNumber'];
-      const address = queryParams['address'];
-      const city = queryParams['city'];
-      const state = queryParams['state'];
-      const country = queryParams['country'];
-      const postalCode = queryParams['postalCode'];
 
       if (this.flag === 'Edit') {
-
-        //this.getbyContactId(this.contactID);
-
-        this.form.patchValue({
-          contactID: this.contactID,
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          phoneNumber: phoneNumber,
-          address: address,
-          city: city,
-          state: state,
-          country: country,
-          postalCode: postalCode
-        });
+        this.getbyContactId(this.contactID);
       }
     });
   }
@@ -112,6 +97,7 @@ export class ContactAddComponent {
     if (this.form.valid) {
       this.contactService.addContact(this.form.value).subscribe(
         response => {
+          this.toastr.success(response.message);
           this._router.navigate(['/contactlist']);
         },
         error => {
@@ -119,6 +105,7 @@ export class ContactAddComponent {
         }
       );
     } else {
+      this.toastr.warning('Please fill all the required fields correctly.');
       this.form.markAllAsTouched();
     }
   }
@@ -129,6 +116,7 @@ export class ContactAddComponent {
       this._router.navigate(['/contactlist']);
       this.contactService.updateContact(this.form.value).subscribe(
         response => {
+          this.toastr.success(response.message);
           this._router.navigate(['/contactlist']);
         },
         error => {
@@ -139,11 +127,11 @@ export class ContactAddComponent {
     }
   }
 
-  // getbyContactId(id: any) { 
-  //   this.contactService.getContactsById(id).subscribe((response: any) => {  
-  //     this.form.patchValue(response);
-  //   });
-  // }
+  getbyContactId(id: any) { 
+    this.contactService.getContactsById(id).subscribe((response: any) => {  
+      this.form.patchValue(response.result);
+    });
+  }
 
   onReset() {
     this._router.navigate(['/contactlist']);
