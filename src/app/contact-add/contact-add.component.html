@@ -1,5 +1,7 @@
 <div class="container">
-    <h6 class="text-center font-weight-bold mb-4">Contact Add Form</h6>
+    <h6 class="text-center font-weight-bold mb-4">
+        {{ flag === 'Edit' ? 'User Edit Form' : 'User Add Form' }}
+    </h6>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="row g-3">
             <div class="col-md-6">

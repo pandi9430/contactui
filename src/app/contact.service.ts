@@ -13,13 +13,25 @@ export class ContactService {
   private deleteapiurl = "http://localhost:5001/api/Contacts/Delete";
   private loginapiurl = "http://localhost:5001/api/Auth/login";
 
+
+  private getalluserapiUrl = 'http://localhost:5001/api/User/GetAllUser';
+  private getbyuseridapiurl = "http://localhost:5001/api/User/";
+  private postuserapiurl = "http://localhost:5001/api/User/InsertUser";
+  private registeruserapiurl = "http://localhost:5001/api/User/RegisterUser";
+  private putuserapiurl = "http://localhost:5001/api/User/PutUser";
+  private restpasswordapiurl = "http://localhost:5001/api/User/ResetPassword";
+  private updateuserstatusapiurl = "http://localhost:5001/api/User/UpdateUserStatus";
+  private deleteuserapiurl = "http://localhost:5001/api/User/Delete";
+
+
+  private getbyusercheckemail = "http://localhost:5001/api/ForgotPassword/";
   constructor(private http: HttpClient) { }
 
   private getHeaders(): HttpHeaders {
     const token = sessionStorage.getItem('token');
-    console.log('Token:', sessionStorage.getItem('token'));
+    
 
-    console.log('Authorization Header:', token ? `Bearer ${token}` : 'No Token');
+    
     return new HttpHeaders({
       'Content-Type': 'application/json',
       ...(token ? { Authorization: `Bearer ${token}` } : {})
@@ -44,5 +56,41 @@ export class ContactService {
 
   deleteContact(id: number): Observable<any> {
     return this.http.delete<any>(`${this.deleteapiurl}/${id}`, { headers: this.getHeaders() });
+  }
+
+  registerUser(User: any): Observable<any> {
+    return this.http.post<any>(this.registeruserapiurl, User, { headers: this.getHeaders() });
+  }
+
+  getUser(): Observable<any[]> {
+    return this.http.get<any[]>(this.getalluserapiUrl, { headers: this.getHeaders() });
+  }
+
+  getUserById(id: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.getbyuseridapiurl}${id}`, { headers: this.getHeaders() });
+  }
+
+  addUser(User: any): Observable<any> {
+    return this.http.post<any>(this.postuserapiurl, User, { headers: this.getHeaders() });
+  }
+
+  updateUser(User: any): Observable<any> {
+    return this.http.put<any>(this.putuserapiurl, User, { headers: this.getHeaders() });
+  }
+
+  deleteUser(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.deleteuserapiurl}/${id}`, { headers: this.getHeaders() });
+  }
+
+  getForgotPasswordByEmailId(id: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.getbyusercheckemail}${id}`, { headers: this.getHeaders() });
+  }
+
+  resetPassword(User: any): Observable<any> {
+    return this.http.put<any>(this.restpasswordapiurl, User, { headers: this.getHeaders() });
+  }
+
+  updateUserStatus(User: any): Observable<any> {
+    return this.http.put<any>(this.updateuserstatusapiurl, User, { headers: this.getHeaders() });
   }
 }

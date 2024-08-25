@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>Update Status</h2>
+<mat-dialog-content>
+    <p>Current Status: {{ userStatus }}</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button class="btn btn-success btn-spacing" (click)="onStatusChange('Accept')">Accept</button>
+    <button class="btn btn-danger btn-spacing" (click)="onStatusChange('Reject')">Reject</button>
+    <button class="btn btn-secondary btn-spacing" (click)="onCancel()">Cancel</button>
+</mat-dialog-actions>

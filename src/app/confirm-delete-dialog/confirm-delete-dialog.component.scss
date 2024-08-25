@@ -1,0 +1,15 @@
+/* confirm-delete-dialog.component.scss */
+.mat-dialog-container {
+    border-radius: 0 !important; /* Remove rounded corners */
+  }
+  
+  .mat-dialog-title {
+    border-bottom: 1px solid #ddd; /* Optional: Add a border below the title */
+    padding-bottom: 10px;
+  }
+  
+  .mat-dialog-actions {
+    border-top: 1px solid #ddd; /* Optional: Add a border above the actions */
+    padding-top: 10px;
+  }
+  

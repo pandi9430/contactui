@@ -1,5 +1,5 @@
 <div class="mx-3 pt-4">
-    <h6 class="text-start font-weight-bold mb-3">Contact Listing</h6>
+    <h6 class="text-start font-weight-bold mb-3">User Listing</h6>
     <div class="my-2 d-flex">
         <input (keyup)="applyFilter($event)" placeholder="Search..." #input
             class="form-control me-2 small-search-box" />
@@ -49,6 +49,21 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Postal Code</th>
                 <td mat-cell *matCellDef="let element">{{ element.postalCode }}</td>
             </ng-container>
+            <ng-container matColumnDef="userStatus">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>User Status</th>
+                <td mat-cell *matCellDef="let element">
+                    <button class="btn" [ngClass]="{
+                      'btn-warning': element.userStatus === 'Pending',  
+                      'btn-success': element.userStatus === 'Accept',   
+                      'btn-danger': element.userStatus === 'Reject',    
+                      'btn-secondary': element.userStatus !== 'Pending' && element.userStatus !== 'Accept' && element.userStatus !== 'Reject'
+                    }" (click)="openStatusDialog(element)">
+                        {{ element.userStatus }}
+                    </button>
+                </td>
+            </ng-container>
+
+
             <ng-container matColumnDef="action">
                 <th mat-header-cell *matHeaderCellDef>Action</th>
                 <td mat-cell *matCellDef="let element">

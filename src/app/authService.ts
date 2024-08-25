@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class AuthService {
   private loginapiurl = 'http://localhost:5001/api/Auth/login';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   login(credentials: any): Observable<any> {
     return this.http.post<any>(this.loginapiurl, credentials);
@@ -27,5 +27,16 @@ export class AuthService {
   // Method to remove token from session storage
   clearToken(): void {
     sessionStorage.removeItem('authToken');
+  }
+
+  // Retrieve role from session storage
+  getUserRole(): string | null {
+    return sessionStorage.getItem('roleName');
+  }
+
+  // Check if the user is an admin
+  isAdmin(): boolean {
+    const role = this.getUserRole();
+    return role === 'Admin';
   }
 }

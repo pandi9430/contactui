@@ -1,0 +1,93 @@
+<div class="container-fluid mt-0 p-4 bg-primary text-light">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6 ">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="card p-4 shadow-sm">
+          <h2 class="text-center text-lg fw-medium">Register</h2>
+
+          <div class="mb-3">
+            <p for="firstName" class="text-sm font-normal">First Name</p>
+            <input type="text" id="firstName" class="form-control" formControlName="firstName"
+              placeholder="Enter your first name" />
+            <div
+              *ngIf="registerForm.get('firstName')?.invalid && (registerForm.get('firstName')?.dirty || registerForm.get('firstName')?.touched)"
+              class="text-danger">
+              First name is required.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <p for="lastName" class="text-sm font-normal">Last Name</p>
+            <input type="text" id="lastName" class="form-control" formControlName="lastName"
+              placeholder="Enter your last name" />
+            <div
+              *ngIf="registerForm.get('lastName')?.invalid && (registerForm.get('lastName')?.dirty || registerForm.get('lastName')?.touched)"
+              class="text-danger">
+              Last name is required.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <p for="email" class="text-sm font-normal">Email</p>
+            <input type="email" id="email" class="form-control" formControlName="email"
+              placeholder="Enter your email" />
+            <div
+              *ngIf="registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched)"
+              class="text-danger">
+              <div *ngIf="registerForm.get('email')?.errors?.['required']">Email is required.</div>
+              <div *ngIf="registerForm.get('email')?.errors?.['email']">Invalid email address.</div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <p for="password" class="text-sm font-normal">Password</p>
+            <input type="password" id="password" class="form-control" formControlName="password"
+              placeholder="Enter your password" />
+            <div
+              *ngIf="registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)"
+              class="text-danger">
+              <div *ngIf="registerForm.get('password')?.errors?.['required']">Password is required.</div>
+              <div *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters
+                long.</div>
+              <div *ngIf="registerForm.get('password')?.errors?.['pattern']">Password must include at least one
+                uppercase letter,
+                one lowercase letter, one number, and one special character.</div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <p class="text-sm font-normal">Confirm Password</p>
+            <input type="password" id="confirmPassword" class="form-control" formControlName="confirmPassword"
+              placeholder="Confirm your password" />
+            <div
+              *ngIf="registerForm.get('confirmPassword')?.invalid && (registerForm.get('confirmPassword')?.dirty || registerForm.get('confirmPassword')?.touched)"
+              class="text-danger">
+              <div *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">Please confirm your password.</div>
+              <div *ngIf="registerForm.errors?.['passwordMismatch']">Passwords do not match.</div>
+            </div>
+          </div>
+          
+          <div class="mb-3 form-check">
+            <input type="checkbox" id="terms" class="form-check-input" formControlName="terms" />
+            <p class="form-check-label text-sm font-normal" for="terms">I accept the terms and conditions</p>
+            <div
+              *ngIf="registerForm.get('terms')?.invalid && (registerForm.get('terms')?.dirty || registerForm.get('terms')?.touched)"
+              class="text-danger">
+              You must accept the terms and conditions.
+            </div>
+          </div>
+
+          <!-- Add this row for buttons -->
+          <div class="row mt-4">
+            <div class="col-6">
+              <button type="submit" class="btn btn-dark btn-lg w-100">Register</button>
+            </div>
+            <div class="col-6">
+              <button type="button" class="btn btn-secondary btn-lg w-100" (click)="cancel()">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -3,6 +3,13 @@
 //     margin: 50px auto;
 // }
 
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.cursor-pointer:hover {
+    color: #007bff; /* Optional: Changes color on hover to indicate interaction */
+}
 
 /* Media query for laptop screens */
 @media (min-width: 992px) and (max-width: 1199px) {

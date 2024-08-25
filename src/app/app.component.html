@@ -1,6 +1,6 @@
 <!-- Conditionally display the navbar based on the isLoginPage property -->
-<nav *ngIf="!isLoginPage" class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-    <a class="navbar-brand" href="#">Knila IT Solutions</a>
+<nav *ngIf="!(isLoginPage || isRegisterPage)" class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+    <a class="navbar-brand" href="#">IT Solutions</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -10,8 +10,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="home">Home</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="contactlist">Contact</a>
+            <!-- Conditionally display Contact link based on user role -->
+            <li class="nav-item" *ngIf="authService.isAdmin()">
+                <a class="nav-link" href="contactlist">User</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="aboutus">About</a>

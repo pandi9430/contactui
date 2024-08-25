@@ -26,7 +26,7 @@ export class ContactAddComponent {
   cities: string[] = ['Chennai', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix'];
   states: string[] = ['TamilNadu', 'California', 'Illinois', 'Texas', 'Arizona'];
   countries: string[] = ['India', 'Canada', 'UK', 'Australia', 'USA'];
-  contactID: any;
+  userID: any;
   flag: any;
   formvalues: any;
   firstName: any;
@@ -45,7 +45,7 @@ export class ContactAddComponent {
     private route: ActivatedRoute,private toastr: ToastrService) {
 
     this.form = this.formBuilder.group({
-      contactID: [0],
+      userID: [0],
       firstName: ['', Validators.required],
       lastName: [
         '',
@@ -78,11 +78,11 @@ export class ContactAddComponent {
     });
 
     this.route.queryParams.subscribe(queryParams => {
-      this.contactID = queryParams['contactID'];
+      this.userID = queryParams['userID'];
       this.flag = queryParams['flag'];
 
       if (this.flag === 'Edit') {
-        this.getbyContactId(this.contactID);
+        this.getbyUserId(this.userID);
       }
     });
   }
@@ -95,7 +95,7 @@ export class ContactAddComponent {
 
   onSubmit() {
     if (this.form.valid) {
-      this.contactService.addContact(this.form.value).subscribe(
+      this.contactService.addUser(this.form.value).subscribe(
         response => {
           this.toastr.success(response.message);
           this._router.navigate(['/contactlist']);
@@ -114,7 +114,7 @@ export class ContactAddComponent {
     if (this.form.valid) {
 
       this._router.navigate(['/contactlist']);
-      this.contactService.updateContact(this.form.value).subscribe(
+      this.contactService.updateUser(this.form.value).subscribe(
         response => {
           this.toastr.success(response.message);
           this._router.navigate(['/contactlist']);
@@ -127,8 +127,8 @@ export class ContactAddComponent {
     }
   }
 
-  getbyContactId(id: any) { 
-    this.contactService.getContactsById(id).subscribe((response: any) => {  
+  getbyUserId(id: any) { 
+    this.contactService.getUserById(id).subscribe((response: any) => {  
       this.form.patchValue(response.result);
     });
   }

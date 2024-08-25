@@ -25,14 +25,23 @@ export class LoginComponent {
 
   ngOnInit() { }
 
+
+  navigateToForgotPassword() {
+    this._router.navigate(['/forgotpassword']);
+  }
+  navigateToRegister(){
+    this._router.navigate(['/register']);
+  }
+
   login() {
     const loginData = this.loginForm.value;
 
-    this.http.post<{ token: string }>('http://localhost:5001/api/Auth/login', loginData).subscribe(
+    this.http.post<{ token: string,role_Name:string }>('http://localhost:5001/api/Auth/login', loginData).subscribe(
       (response) => {
         if (response.token) {
-          console.log(response)
-          sessionStorage.setItem('token', response.token); // Store token in session storage       
+                
+          sessionStorage.setItem('token', response.token); // Store token in session storage   
+          sessionStorage.setItem('roleName', response.role_Name); // Store token in session storage      
           this._router.navigate(['/home']);
           this.toastr.success('Login Successfully');
         } else {

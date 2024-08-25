@@ -12,12 +12,14 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '../auth.interceptor';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ToastrService } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
+import { UserstatusdialogComponent } from '../userstatusdialog/userstatusdialog.component';
 
 
 @Component({
   selector: 'app-contact-listing',
   standalone: true,
-  imports: [MatTableModule, MatFormFieldModule, MatInputModule, MatIconModule, MatSortModule, MatTooltipModule],
+  imports: [CommonModule, MatTableModule, MatFormFieldModule, MatInputModule, MatIconModule, MatSortModule, MatTooltipModule],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
@@ -25,12 +27,12 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./contact-listing.component.scss']
 })
 export class ContactListingComponent {
-  displayedColumns: string[] = ['position', 'firstName', 'lastName', 'email', 'address', 'phoneNumber', 'city', 'state', 'country', 'postalCode', 'action'];
+  displayedColumns: string[] = ['position', 'firstName', 'lastName', 'email', 'address', 'phoneNumber', 'city', 'state', 'country', 'postalCode', 'userStatus', 'action'];
   dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatSort) sort!: MatSort;
-  contactID: number = 0;
+  userID: number = 0;
 
-  constructor(private _router: Router, private contactService: ContactService, public dialog: MatDialog,private toastr: ToastrService) {
+  constructor(private _router: Router, private contactService: ContactService, public dialog: MatDialog, private toastr: ToastrService) {
     this.getcontactlists();
   }
 
@@ -39,7 +41,7 @@ export class ContactListingComponent {
   }
 
   getcontactlists() {
-    this.contactService.getContacts().subscribe((response: any) => {     
+    this.contactService.getUser().subscribe((response: any) => {
       this.dataSource.data = response.result;
     });
   }
@@ -52,10 +54,10 @@ export class ContactListingComponent {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  
+
   clickAdd() {
     let reqdata = {
-      contactID: 0,
+      userID: 0,
       flag: 'Add'
     };
     this._router.navigate(['/contactadd'], { queryParams: reqdata });
@@ -63,7 +65,7 @@ export class ContactListingComponent {
 
   clickEdit(element: any) {
     let reqdata = {
-      contactID: element.contactID,
+      userID: element.userID,
       flag: 'Edit',
       firstName: element.firstName,
       lastName: element.lastName,
@@ -82,13 +84,39 @@ export class ContactListingComponent {
     const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.contactService.deleteContact(element.contactID).subscribe(response => {
-          if (response.status=='SUCCESS') {
+        this.contactService.deleteUser(element.userID).subscribe(response => {
+          if (response.status == 'SUCCESS') {
             this.toastr.success(response.message);
             this.getcontactlists();
           }
         });
       }
     });
+  }
+
+  openStatusDialog(element: any) {
+    const dialogRef = this.dialog.open(UserstatusdialogComponent, {
+      data: { userID: element.userID, currentStatus: element.userStatus }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.contactService.updateUserStatus({ userID: element.userID, userStatus: result }).subscribe(response => {
+          if (response.status == 'SUCCESS') {
+            this.toastr.success(response.message);
+            this.getcontactlists();
+          }
+        });
+      }
+    });
+  }
+
+  getStatusClass(status: string): string {
+    switch (status) {
+      case 'Pending': return 'Pending';
+      case 'Accept': return 'Accept';
+      case 'Reject': return 'Reject';
+      default: return 'default-status';
+    }
   }
 }
